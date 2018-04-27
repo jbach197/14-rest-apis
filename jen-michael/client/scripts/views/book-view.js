@@ -115,7 +115,7 @@ var app = app || {};
     module.Book.all.forEach(book => $('#search-list').append(book.toHtml()));
     $('.detail-button a').text('Add to list').attr('href', '/');
     $('.detail-button').on('click', function(e) {
-      // COMMENT: Explain the following line of code.
+      // COMMENT: Explain the following line of code.  It searches for the book id in the DOM tree.
       module.Book.findOne($(this).parent().parent().parent().data('bookid'))
     });
   }

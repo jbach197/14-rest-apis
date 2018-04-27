@@ -10,9 +10,9 @@ const bodyparser = require('body-parser');
 // Application Setup
 const app = express();
 const PORT = process.env.PORT;
-const CLIENT_URL = http://localhost:8080;
+const CLIENT_URL = process.env.CLIENT_URL;
 const TOKEN = process.env.TOKEN;
-e
+
 // COMMENT: Explain the following line of code. What is the API_KEY? Where did it come from?  The key provides access to the API without providing a username/password.  The API key is provided by Google after proper authentication of your credentials.
 const API_KEY = process.env.GOOGLE_API_KEY;
 
@@ -91,6 +91,7 @@ app.get('/api/v1/books', (req, res) => {
     .then(results => res.send(results.rows))
     .catch(console.error);
 });
+
 
 app.get('/api/v1/books/:id', (req, res) => {
   client.query(`SELECT * FROM books WHERE book_id=${req.params.id}`)
