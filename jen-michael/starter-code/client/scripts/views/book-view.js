@@ -81,15 +81,15 @@ var app = app || {};
     })
   };
 
-// COMMENT: What is the purpose of this method?
+// COMMENT: What is the purpose of this method? It shows the form page so the user can search for a book.
   bookView.initSearchFormPage = function() {
     resetView();
     $('.search-view').show();
     $('#search-form').on('submit', function(event) {
-      // COMMENT: What default behavior is being prevented here?
+      // COMMENT: What default behavior is being prevented here?  It prevents the page from refreshing.
       event.preventDefault();
 
-      // COMMENT: What is the event.target, below? What will happen if the user does not provide the information needed for the title, author, or isbn properties?
+      // COMMENT: What is the event.target, below? What will happen if the user does not provide the information needed for the title, author, or isbn properties?  It creates an object for the book search request.  If a value is not provided, it remains blank.
       let book = {
         title: event.target.title.value || '',
         author: event.target.author.value || '',
@@ -98,20 +98,20 @@ var app = app || {};
 
       module.Book.find(book, bookView.initSearchResultsPage);
 
-      // COMMENT: Why are these values set to an empty string?
+      // COMMENT: Why are these values set to an empty string?  It makes sure the form inits to blank and allows the user to submit blank fields.
       event.target.title.value = '';
       event.target.author.value = '';
       event.target.isbn.value = '';
     })
   }
 
-  // COMMENT: What is the purpose of this method?
+  // COMMENT: What is the purpose of this method?  It shows the searcch results and empties the current list.
   bookView.initSearchResultsPage = function() {
     resetView();
     $('.search-results').show();
     $('#search-list').empty();
 
-    // COMMENT: Explain how the .forEach() method is being used below.
+    // COMMENT: Explain how the .forEach() method is being used below.  This method loops over the search items and renders the information to the page.
     module.Book.all.forEach(book => $('#search-list').append(book.toHtml()));
     $('.detail-button a').text('Add to list').attr('href', '/');
     $('.detail-button').on('click', function(e) {
