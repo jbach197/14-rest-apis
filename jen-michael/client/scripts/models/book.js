@@ -6,7 +6,7 @@ const ENV = {};
 
 ENV.isProduction = window.location.protocol === 'https:';
 ENV.productionApiUrl = 'insert cloud API server URL here';
-ENV.developmentApiUrl = 'insert local API server URL here';
+ENV.developmentApiUrl = 'http://localhost:3000';
 ENV.apiUrl = ENV.isProduction ? ENV.productionApiUrl : ENV.developmentApiUrl;
 
 (function(module) {
@@ -59,19 +59,19 @@ ENV.apiUrl = ENV.isProduction ? ENV.productionApiUrl : ENV.developmentApiUrl;
     })
     .then(() => page('/'))
     .catch(errorCallback)
+// COMMENT: Where is this method invoked? What is passed in as the 'book' argument when invoked? What callback will be invoked after Book.loadAll is invoked? It is invoked in the book-view.js file upon user submitting the rorm.  It will send a request to find the book information.
+Book.find = (book, callback) =>
+$.get(`${ENV.apiUrl}/api/v1/books/find`, book)
+  .then(Book.loadAll)
+  .then(callback)
+  .catch(errorCallback)
 
-  // COMMENT: Where is this method invoked? What is passed in as the 'book' argument when invoked? What callback will be invoked after Book.loadAll is invoked?
-  Book.find = (book, callback) =>
-    $.get(`${ENV.apiUrl}/api/v1/books/find`, book)
-      .then(Book.loadAll)
-      .then(callback)
-      .catch(errorCallback)
+// COMMENT: Where is this method invoked? How does it differ from the Book.find method, above?  This method is invoked in the book-view.js file.  It is called when you click on any of the books that appear in the search results.
+Book.findOne = isbn =>
+$.get(`${ENV.apiUrl}/api/v1/books/find/${isbn}`)
+.then(Book.create)
+.catch(errorCallback)
 
-  // COMMENT: Where is this method invoked? How does it differ from the Book.find method, above?
-  Book.findOne = isbn =>
-    $.get(`${ENV.apiUrl}/api/v1/books/find/${isbn}`)
-    .then(Book.create)
-    .catch(errorCallback)
-
-  module.Book = Book;
+module.Book = Book;
 })(app)
+
